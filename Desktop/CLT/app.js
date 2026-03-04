@@ -12,6 +12,7 @@ const FORMATIONS_KEY = 'cltcrh_formations';
 let volunteers = [];
 let formations = [];
 let currentEditId = null;
+let currentPhotoData = null;
 
 // ==========================================
 // INITIALISATION
@@ -43,6 +44,7 @@ function setupEventListeners() {
     document.getElementById('btn-cancel').addEventListener('click', closeModal);
     document.querySelector('.close-formations').addEventListener('click', closeFormationsModal);
     document.querySelector('.close-stats').addEventListener('click', closeStatsModal);
+    document.querySelector('.close-print').addEventListener('click', closePrintModal);
     
     // Soumettre formulaire volontaire
     document.getElementById('volunteer-form').addEventListener('submit', handleFormSubmit);
@@ -68,6 +70,7 @@ function setupEventListeners() {
             closeModal();
             closeFormationsModal();
             closeStatsModal();
+            closePrintModal();
         }
     });
 }
@@ -275,6 +278,16 @@ function editVolunteer(id) {
         document.getElementById('competences').value = volunteer.competences || '';
         document.getElementById('disponibilite').value = volunteer.disponibilite;
         document.getElementById('statut').value = volunteer.statut;
+        document.getElementById('groupe_sanguin').value = volunteer.groupe_sanguin || '';
+        
+        // Charger la photo
+        currentPhotoData = volunteer.photo || null;
+        if (currentPhotoData) {
+            document.getElementById('photo-preview').src = currentPhotoData;
+            document.getElementById('photo-preview-container').style.display = 'block';
+        } else {
+            document.getElementById('photo-preview-container').style.display = 'none';
+        }
         
         // Charger les formations suivies
         const formationsSelect = document.getElementById('formations');
@@ -342,6 +355,8 @@ function handleFormSubmit(e) {
         competences: document.getElementById('competences').value.trim(),
         disponibilite: document.getElementById('disponibilite').value,
         statut: document.getElementById('statut').value,
+        groupe_sanguin: document.getElementById('groupe_sanguin').value,
+        photo: currentPhotoData,
         formations: selectedFormations
     };
     
@@ -371,9 +386,14 @@ function resetForm() {
     document.getElementById('volunteer-id').value = '';
     document.getElementById('modal-title').textContent = 'Nouveau Volontaire';
     currentEditId = null;
+    currentPhotoData = null;
     
     // Réinitialiser les champs d'année des formations
     document.getElementById('formation-years-container').innerHTML = '';
+    
+    // Réinitialiser l'aperçu de la photo
+    document.getElementById('photo-preview-container').style.display = 'none';
+    document.getElementById('photo-preview').src = '';
 }
 
 // Fonction pour générer les champs d'année pour chaque formation sélectionnée
@@ -460,6 +480,11 @@ function renderVolunteers(filteredVolunteers = null) {
     tbody.innerHTML = displayList.map((volunteer, index) => `
         <tr>
             <td>${index + 1}</td>
+            <td>
+                ${volunteer.photo 
+                    ? `<img src="${volunteer.photo}" alt="Photo" class="table-photo">` 
+                    : `<div class="table-photo-placeholder"><i class="fas fa-user"></i></div>`}
+            </td>
             <td><strong>${escapeHtml(volunteer.nom)}</strong></td>
             <td>${escapeHtml(volunteer.prenom)}</td>
             <td>${escapeHtml(volunteer.telephone)}</td>
@@ -472,6 +497,9 @@ function renderVolunteers(filteredVolunteers = null) {
                 </span>
             </td>
             <td class="actions">
+                <button class="btn btn-primary" onclick="printDossierView('${volunteer.id}')" title="Imprimer dossier" style="padding: 8px 10px; font-size: 12px;">
+                    <i class="fas fa-print"></i>
+                </button>
                 <button class="btn btn-edit" onclick="editVolunteer('${volunteer.id}')" title="Modifier">
                     <i class="fas fa-edit"></i>
                 </button>
@@ -789,3 +817,208 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+/* ========================================
+   GESTION DE LA PHOTO
+   ======================================== */
+
+// Fonction pour prévisualiser la photo
+function previewPhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentPhotoData = e.target.result;
+            document.getElementById('photo-preview').src = currentPhotoData;
+            document.getElementById('photo-preview-container').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Fonction pour supprimer la photo
+function removePhoto() {
+    currentPhotoData = null;
+    document.getElementById('photo').value = '';
+    document.getElementById('photo-preview').src = '';
+    document.getElementById('photo-preview-container').style.display = 'none';
+}
+
+/* ========================================
+   IMPRESSION DU DOSSIER
+   ======================================== */
+
+let currentPrintVolunteerId = null;
+
+// Fonction pour afficher le dossier imprimable
+function printDossierView(id) {
+    const volunteer = volunteers.find(v => v.id === id);
+    if (!volunteer) return;
+    
+    currentPrintVolunteerId = id;
+    
+    // Calculer l'âge
+    let age = '';
+    if (volunteer.date_naissance) {
+        const today = new Date();
+        const birthDate = new Date(volunteer.date_naissance);
+        age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+    }
+    
+    // Générer le contenu du dossier
+    const photoHtml = volunteer.photo 
+        ? `<img src="${volunteer.photo}" alt="Photo" class="dossier-photo">`
+        : `<div class="dossier-photo-placeholder"><i class="fas fa-user"></i></div>`;
+    
+    const formationsList = getFormationDisplayNames(volunteer.formations);
+    
+    const content = `
+        <div class="dossier-container">
+            <div class="dossier-header">
+                <div class="dossier-logo">
+                    <span class="cross">✚</span>
+                </div>
+                <div class="dossier-title">
+                    <h1>Comité Local de Tabarre</h1>
+                    <h2>Croix-Rouge Haïtienne</h2>
+                    <h3>Dossier du Volontaire</h3>
+                </div>
+            </div>
+            
+            <div class="dossier-section">
+                <div class="dossier-photo-section">
+                    ${photoHtml}
+                </div>
+                <div class="dossier-info">
+                    <div class="info-row">
+                        <span class="label">Nom:</span>
+                        <span class="value">${escapeHtml(volunteer.nom)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Prénom:</span>
+                        <span class="value">${escapeHtml(volunteer.prenom)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Sexe:</span>
+                        <span class="value">${volunteer.sexe === 'M' ? 'Masculin' : 'Féminin'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Date de naissance:</span>
+                        <span class="value">${formatDate(volunteer.date_naissance)} ${age ? `(${age} ans)` : ''}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Téléphone:</span>
+                        <span class="value">${escapeHtml(volunteer.telephone)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Email:</span>
+                        <span class="value">${volunteer.email ? escapeHtml(volunteer.email) : '-'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Adresse:</span>
+                        <span class="value">${escapeHtml(volunteer.adresse)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Zone:</span>
+                        <span class="value">${escapeHtml(volunteer.zone)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Groupe sanguin:</span>
+                        <span class="value">${volunteer.groupe_sanguin ? escapeHtml(volunteer.groupe_sanguin) : '-'}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dossier-section">
+                <h4>Informations complémentaires</h4>
+                <div class="info-row">
+                    <span class="label">Compétences:</span>
+                    <span class="value">${volunteer.competences ? escapeHtml(volunteer.competences) : '-'}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Disponibilité:</span>
+                    <span class="value">${escapeHtml(volunteer.disponibilite)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Statut:</span>
+                    <span class="value">${escapeHtml(volunteer.statut)}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Date d'inscription:</span>
+                    <span class="value">${formatDate(volunteer.date_inscription)}</span>
+                </div>
+            </div>
+            
+            <div class="dossier-section">
+                <h4>Formations suivies</h4>
+                <div class="formations-list">${formationsList}</div>
+            </div>
+            
+            <div class="dossier-footer">
+                <p>Document généré le ${new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                <p>Comité Local de Tabarre - Croix-Rouge Haïtienne</p>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('print-content').innerHTML = content;
+    document.getElementById('modal-print').style.display = 'block';
+}
+
+// Fonction pour fermer le modal d'impression
+function closePrintModal() {
+    document.getElementById('modal-print').style.display = 'none';
+    currentPrintVolunteerId = null;
+}
+
+// Fonction pour imprimer le dossier
+function printDossier() {
+    const printContent = document.getElementById('print-content').innerHTML;
+    const printWindow = window.open('', '', 'height=600,width=800');
+    
+    printWindow.document.write('<!DOCTYPE html>');
+    printWindow.document.write('<html lang="fr">');
+    printWindow.document.write('<head>');
+    printWindow.document.write('<meta charset="UTF-8">');
+    printWindow.document.write('<title>Dossier Volontaire - CLTCRH</title>');
+    printWindow.document.write(`
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+            .dossier-container { max-width: 700px; margin: 0 auto; }
+            .dossier-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #CC0000; }
+            .dossier-logo { width: 60px; height: 60px; background: #CC0000; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+            .dossier-logo .cross { color: white; font-size: 30px; font-weight: bold; }
+            .dossier-title h1 { font-size: 24px; color: #333; text-transform: uppercase; }
+            .dossier-title h2 { font-size: 16px; color: #666; }
+            .dossier-title h3 { font-size: 18px; color: #CC0000; margin-top: 10px; }
+            .dossier-section { margin-bottom: 25px; }
+            .dossier-section h4 { font-size: 14px; color: #CC0000; text-transform: uppercase; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 1px solid #ddd; }
+            .dossier-photo-section { text-align: center; margin-bottom: 20px; }
+            .dossier-photo { width: 150px; height: 150px; object-fit: cover; border-radius: 8px; border: 3px solid #CC0000; }
+            .dossier-photo-placeholder { width: 150px; height: 150px; background: #f5f5f5; border-radius: 8px; border: 3px solid #ddd; display: inline-flex; align-items: center; justify-content: center; font-size: 60px; color: #ccc; }
+            .dossier-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .info-row { display: flex; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+            .info-row .label { font-weight: 600; color: #666; min-width: 140px; }
+            .info-row .value { color: #333; }
+            .formations-list { padding: 10px; background: #f9f9f9; border-radius: 5px; }
+            .dossier-footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px; }
+            @media print { body { padding: 0; } }
+        </style>
+    `);
+    printWindow.document.write('</head>');
+    printWindow.document.write('<body>');
+    printWindow.document.write(printContent);
+    printWindow.document.write('</body>');
+    printWindow.document.write('</html>');
+    
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => {
+        printWindow.print();
+    }, 500);
+}
