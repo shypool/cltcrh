@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activité des Volontaires - CLTCRH</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">
+                    <img src="../logo.jpg" alt="Logo CLTCRH" class="logo-img">
+                </div>
+                <div class="title-section">
+                    <h1>Comité Local de Tabarre</h1>
+                    <h2>Croix-Rouge Haïtienne</h2>
+                </div>
+            </div>
+            <div class="header-subtitle">Suivi des Activités des Volontaires</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="controls-section">
+            <button id="btn-back" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Retour au Registre
+            </button>
+            
+            <div class="tab-buttons">
+                <button id="tab-volunteer" class="tab-btn active">
+                    <i class="fas fa-user-check"></i> Volontaire
+                </button>
+                <button id="tab-admin" class="tab-btn">
+                    <i class="fas fa-cog"></i> Gérer Activités
+                </button>
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-user"></i>
+                <select id="volunteer-select" aria-label="Sélectionner un volontaire">
+                    <option value="">Sélectionner un volontaire...</option>
+                </select>
+            </div>
+            <button id="btn-save-activities" class="btn btn-primary volunteer-tab-only" style="display:none;">
+                <i class="fas fa-save"></i> Enregistrer Volontaire
+            </button>
+            <button id="btn-save-managed" class="btn btn-primary admin-tab-only" style="display:none;">
+                <i class="fas fa-save"></i> Enregistrer Activités
+            </button>
+            <button id="btn-print-activite" class="btn btn-secondary volunteer-tab-only" style="display:none;">
+                <i class="fas fa-print"></i> Imprimer Bilan
+            </button>
+        </section>
+
+        <!-- Volunteer Tab -->
+        <section id="volunteer-tab" class="tab-content active">
+            <section class="activity-sections">
+                <div class="activity-section">
+                    <h3><i class="fas fa-users"></i> Réunion de Fidélisation</h3>
+                    <table class="activity-table" id="fidelisation-table">
+                        <thead>
+                            <tr>
+<th>Date</th>
+<th>Présents</th>
+<th>Présent (moi)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fidelisation-tbody">
+                            <!-- Dynamic -->
+                        </tbody>
+                    </table>
+                    <div class="totals-card">
+                        <strong>Total Fidélisation: <span id="total-fidelisation">0/0</span> (<span id="pct-fidelisation">0%</span>)</strong>
+                    </div>
+                </div>
+
+                <div class="activity-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Activité sur le Terrain</h3>
+                    <table class="activity-table" id="terrain-table">
+                        <thead>
+                            <tr>
+<th>Date</th>
+<th>Activité</th>
+<th>Présents</th>
+<th>Présent (moi)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="terrain-tbody">
+                            <!-- Dynamic -->
+                        </tbody>
+                    </table>
+                    <div class="totals-card">
+                        <strong>Total Terrain: <span id="total-terrain">0</span> (<span id="pct-terrain">0%</span>)</strong>
+                    </div>
+                </div>
+
+                <div class="bilan-annuel">
+                    <h3>Bilan Annuel</h3>
+                    <div class="totals-card large">
+                        <div>Total Sessions: <span id="total-sessions">0</span></div>
+                        <div>Participation: <span id="total-participation">0%</span></div>
+                        <div>Statut: <span id="statut-regularite">Irrégulier</span></div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Admin Tab -->
+        <section id="admin-tab" class="tab-content">
+            <div class="admin-section">
+                <h3><i class="fas fa-calendar-plus"></i> Gérer Réunions Fidélisation</h3>
+                <div class="admin-form">
+                    <input type="month" id="add-fidel-date" placeholder="AAAA-MM">
+                    <button id="btn-add-fidel" class="btn btn-primary">Ajouter Date</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>Date</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="managed-fidel-tbody"></tbody>
+                </table>
+            </div>
+
+            <div class="admin-section">
+                <h3><i class="fas fa-plus"></i> Gérer Activités Terrain</h3>
+                <div class="admin-form">
+                    <input type="text" id="add-terrain-name" placeholder="Nom activité (ex: Visite quartier)">
+                    <button id="btn-add-terrain" class="btn btn-primary">Ajouter Activité</button>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr><th>Nom Activité</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="managed-terrain-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Comité Local de Tabarre - Croix-Rouge Haïtienne (CLTCRH)</p>
+    </footer>
+</body>
+</html>

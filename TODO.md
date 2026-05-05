@@ -1,14 +1,14 @@
-# Formations Multi-Select Task
+# Git Operations Progress Tracker ✅
 
-## Plan approuvé
-**User confirmed**: Formations already implemented as multi-select (Ctrl/Cmd), supports multiple choices per volunteer with years, fully functional.
+## Approved Git Plan Steps:
+- [x] 1. git pull origin main (fast-forward remote updates) ✅ Updated Desktop/CLT/index.html
+- [ ] 2. git add TODO.md activite.html app.js index.html style.css
+- [ ] 3. git commit -m "Add activite.html and updates to app files; complete logo fixes"
+- [ ] 4. git push origin main
+- [ ] 5. Verify with git status && git log --oneline -5
 
-## Steps Completed
-1. ✅ Analyzed files (index.html, app.js, style.css, TODO.md)
-2. ✅ Verified multi-select works:
-   - `<select multiple>` + dynamic year inputs
-   - Storage/display/filter/edit/stats all handle multiples
-3. ✅ User confirmed: \"yes\" (working as expected)
-4. ✅ No code changes needed
+**Notes:**
+- Confirmed: Exclude nested Desktop/CLT/ duplicates.
+- Previous: Logo fixes complete, testing pending.
 
-**Status**: Task complete! Formations support multiple choices per volunteer.
+**Status**: Pull complete. Staging next.

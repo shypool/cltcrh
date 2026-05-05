@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registre des Volontaires - CLTCRH</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">
+                    <img src="../logo.jpg" alt="Logo CLTCRH" class="logo-img">
+                </div>
+                <div class="title-section">
+                    <h1>Comité Local de Tabarre</h1>
+                    <h2>Croix-Rouge Haïtienne</h2>
+                </div>
+            </div>
+            <div class="header-subtitle">Registre des Volontaires</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="controls-section">
+            <button id="btn-add" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nouveau Volontaire
+            </button>
+            <button id="btn-formations" class="btn btn-secondary">
+                <i class="fas fa-graduation-cap"></i> Gérer les Formations
+            </button>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Rechercher un volontaire...">
+            </div>
+            <div class="search-box">
+                <i class="fas fa-filter"></i>
+                <select id="search-formation">
+                    <option value="">Toutes les formations</option>
+                </select>
+            </div>
+<button id="btn-export" class="btn btn-secondary">
+                <i class="fas fa-file-csv"></i> Exporter CSV
+            </button>
+            <button id="btn-export-pdf" class="btn btn-secondary">
+                <i class="fas fa-file-pdf"></i> Exporter PDF
+            </button>
+            <button id="btn-stats" class="btn btn-secondary">
+                <i class="fas fa-chart-bar"></i> Statistiques
+            </button>
+<button id="btn-activite" class="btn btn-secondary" onclick="window.location.href='activite.html'">
+                <i class="fas fa-calendar-check"></i> Activité
+            </button>
+        </section>
+
+        <!-- Modal Formulaire -->
+        <div id="modal-form" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">Nouveau Volontaire</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <form id="volunteer-form">
+                    <input type="hidden" id="volunteer-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nom">Nom *</label>
+                            <input type="text" id="nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">Prénom *</label>
+                            <input type="text" id="prenom" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sexe">Sexe *</label>
+                            <select id="sexe" required>
+                                <option value="">Sélectionner</option>
+                                <option value="M">Masculin</option>
+                                <option value="F">Féminin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_naissance">Date de naissance *</label>
+                            <input type="date" id="date_naissance" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telephone">Téléphone *</label>
+                            <input type="tel" id="telephone" required placeholder="+509 xxxx xxxx">
+                        </div>
+                        <div class="form-group">
+                            <label for="groupe_sanguin">Groupe sanguin</label>
+                            <select id="groupe_sanguin">
+                                <option value="">Sélectionner</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="email@exemple.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="photo">Photo</label>
+                            <input type="file" id="photo" accept="image/*" onchange="previewPhoto(event)">
+                            <div id="photo-preview-container" style="display: none; margin-top: 10px;">
+                                <img id="photo-preview" src="" alt="Aperçu" style="max-width: 150px; max-height: 150px; border-radius: 8px; border: 2px solid var(--gray-light);">
+                                <button type="button" class="btn btn-danger" onclick="removePhoto()" style="margin-left: 10px; padding: 8px 12px;">
+                                    <i class="fas fa-times"></i> Supprimer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adresse">Adresse *</label>
+                        <input type="text" id="adresse" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="zone">Zone/Tabarre *</label>
+                            <select id="zone" required>
+                                <option value="">Sélectionner</option>
+                                <option value="Tabarre 18">Tabarre 18</option>
+                                <option value="Tabarre 24">Tabarre 24</option>
+                                <option value="Tabarre 25">Tabarre 25</option>
+                                <option value="Tabarre 27">Tabarre 27</option>
+                                <option value="Tabarre 28">Tabarre 28</option>
+                                <option value="Tabarre 30">Tabarre 30</option>
+                                <option value="Saint-Martin">Saint-Martin</option>
+                                <option value="Laferrière">Laferrière</option>
+                                <option value="Bifol">Bifol</option>
+                                <option value="Carrefour">Carrefour</option>
+                                <option value="Bon Repos">Bon Repos</option>
+                                <option value="Autres">Autres</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="competences">Compétences</label>
+                            <input type="text" id="competences" placeholder="Ex: Premiers secours, Secourisme...">
+                        </div>
+                        <div class="form-group">
+                            <label for="annee_integration">Année d'intégration *</label>
+                            <input type="number" id="annee_integration" required min="2000" max="2025" placeholder="Ex: 2024">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="disponibilite">Disponibilité</label>
+                            <select id="disponibilite">
+
+                                <option value="Weekend">Weekend</option>
+                                <option value="Semaine">Semaine</option>
+                                <option value="Temps plein">Temps plein</option>
+                                <option value="Temps partiel">Temps partiel</option>
+                                <option value="À la demande">À la demande</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="statut">Statut</label>
+                            <select id="statut">
+                                <option value="Actif">Actif</option>
+                                <option value="Inactif">Inactif</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formations">Formations suivies</label>
+                        <select id="formations" multiple onchange="updateYearInputs()">
+                            <option value="">Sélectionner les formations</option>
+                        </select>
+                        <small style="color: #666; margin-top: 5px; display: block;">Maintenez Ctrl (ou Cmd) pour sélectionner plusieurs formations</small>
+                    </div>
+
+                    <div id="formation-years-container">
+                        <!-- Les champs d'année seront générés ici dynamiquement -->
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="btn-cancel">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Statistiques -->
+        <div id="modal-stats" class="modal">
+            <div class="modal-content modal-stats">
+                <div class="modal-header">
+                    <h3>Statistiques des Volontaires</h3>
+                    <span class="close-stats">&times;</span>
+                </div>
+                <div id="stats-content">
+                    <!-- Stats will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Formations -->
+        <div id="modal-formations" class="modal">
+            <div class="modal-content modal-formations">
+                <div class="modal-header">
+                    <h3>Gérer les Formations</h3>
+                    <span class="close-formations">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="formation-add-section">
+                        <h4>Ajouter une nouvelle formation</h4>
+                        <form id="formation-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="formation-nom">Nom de la formation *</label>
+                                    <input type="text" id="formation-nom" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="formation-date">Date</label>
+                                    <input type="date" id="formation-date">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="formation-duree">Durée</label>
+                                    <input type="text" id="formation-duree" placeholder="Ex: 2 jours, 4 heures...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="formation-description">Description</label>
+                                    <input type="text" id="formation-description" placeholder="Brève description">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Ajouter
+                            </button>
+                        </form>
+                    </div>
+                    <hr style="margin: 20px 0; border: none; border-top: 1px solid #ccc;">
+                    <div class="formations-list-section">
+                        <h4>Liste des formations</h4>
+                        <div id="formations-list">
+                            <!-- Formations will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal pour l'impression du dossier -->
+        <div id="modal-print" class="modal">
+            <div class="modal-content modal-print">
+                <div class="modal-header">
+                    <h3>Dossier du Volontaire</h3>
+                    <span class="close-print">&times;</span>
+                </div>
+                <div id="print-content">
+                    <!-- Le contenu sera généré ici -->
+                </div>
+                <div class="print-actions">
+                    <button class="btn btn-secondary" onclick="closePrintModal()">Fermer</button>
+                    <button class="btn btn-primary" onclick="printDossier()">
+                        <i class="fas fa-print"></i> Imprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des volontaires -->
+        <section class="table-section">
+            <table id="volunteers-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Photo</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Téléphone</th>
+                        <th>Zone</th>
+                        <th>Nombre d'années</th>
+                        <th>Formations</th>
+
+                        <th>Disponibilité</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="volunteers-tbody">
+                    <!-- Volunteers will be inserted here -->
+                </tbody>
+            </table>
+            
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fas fa-users"></i>
+                <p>Aucun volontaire enregistré</p>
+                <p>Cliquez sur "Nouveau Volontaire" pour commencer</p>
+            </div>
+        </section>
+
+        <!-- Footer info -->
+        <section class="footer-info">
+            <span id="total-volunteers">Total: 0 volontaire(s)</span>
+            <span id="last-update">Dernière mise à jour: -</span>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Comité Local de Tabarre - Croix-Rouge Haïtienne (CLTCRH)</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
