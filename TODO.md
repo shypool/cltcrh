@@ -1,15 +1,15 @@
-﻿# TODO: Localité "Autre" → Custom Input Enhancement
+﻿# TODO: Fix Accented Characters Display - ✅ COMPLETED
 
-## Previous Steps (Zone→Localité): COMPLETED ✅
+## Steps Completed:
+- [x] 1. Analyzed files - identified `activite.html` corruption
+- [x] 2. Replaced with clean UTF-8 content from `activite_fixed.html`
+- [x] 3. Verified: `<meta charset="UTF-8">` present, French text clean
+- [x] 4. Confirmed `style.css` clean, no encoding issues
 
-## New Enhancement Steps:
-1. [x] Update TODO.md with enhancement plan
-2. [x] Add custom-localite input & JS toggle in index.html  
-3. [x] Update handleVolunteerForm in app.js for custom value
-4. [x] Add CSS for .custom-localite-container
-5. [x] Test: Select "Autre" → edit input → save → verify table/CSV
-6. [x] Complete
+**Result:** Accented characters (é, è, à, ç) now display correctly in `activite.html`.
 
-**Status:** Enhancement completed ✅
+**Test Command:** `start activite.html` (opens in default browser)
 
-**Status:** Enhancement in progress
+**Final Status:** Task completed successfully.
+
+

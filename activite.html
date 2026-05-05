@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activité - CLTCRH</title>
+    <title>Activité - CLTCRH</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="app.js" defer></script>
@@ -16,11 +16,11 @@
                     <img src="Desktop/CLT/logo.jpg" alt="Logo CLTCRH" class="logo-img">
                 </div>
                 <div class="title-section">
-<h1>Comité Local de Tabarre</h1>
-<h2>Croix-Rouge Haïtienne</h2>
+                    <h1>Comité Local de Tabarre</h1>
+                    <h2>Croix-Rouge Haïtienne</h2>
                 </div>
             </div>
-Page Activité</div>
+            <div class="header-subtitle">Page Activité</div>
         </div>
     </header>
 
@@ -30,17 +30,17 @@ Page Activité</div>
                 <i class="fas fa-arrow-left"></i> Retour Registre
             </button>
             <button id="btn-manage-activities" class="btn btn-primary">
-                <i class="fas fa-calendar-check"></i> G�rer les Activit�s
+                <i class="fas fa-calendar-check"></i> Gérer les Activités
             </button>
             <div class="search-box">
                 <i class="fas fa-user"></i>
-                <select id="volunteer-select">
-                    <option value="">S�lectionner un volontaire</option>
+                <select id="volunteer-select" aria-label="Sélectionner un volontaire">
+                    <option value="">Sélectionner un volontaire</option>
                 </select>
             </div>
             <div class="search-box">
                 <i class="fas fa-calendar"></i>
-                <input type="number" id="year-select" min="2000" max="2100" placeholder="Ann�e (ex: 2026)">
+                <input type="number" id="year-select" min="2000" max="2100" placeholder="Année (ex: 2026)">
             </div>
             <button id="btn-save-activities" class="btn btn-primary">
                 <i class="fas fa-save"></i> Enregistrer
@@ -52,35 +52,35 @@ Page Activité</div>
 
         <section id="manage-activities-section" class="activity-sections" style="display: none;">
             <article class="activity-section">
-                <h3><i class="fas fa-plus-circle"></i> Cr�er une Nouvelle Activit�</h3>
+                <h3><i class="fas fa-plus-circle"></i> Créer une Nouvelle Activité</h3>
                 <div class="form-group">
-                    <label for="activity-type">Type d'activit�:</label>
+                    <label for="activity-type">Type d'activité:</label>
                     <select id="activity-type">
-                        <option value="reunion">R�union de fid�lisation</option>
-                        <option value="terrain">Activit� sur le terrain</option>
+                        <option value="reunion">Réunion de fidélisation</option>
+                        <option value="terrain">Activité sur le terrain</option>
                     </select>
                 </div>
                 <div class="form-group" id="activity-name-group" style="display: none;">
-                    <label for="activity-name">Nom de l'activit�:</label>
-                    <input type="text" id="activity-name" placeholder="Ex: Distribution de kits d'hygi�ne">
+                    <label for="activity-name">Nom de l'activité:</label>
+                    <input type="text" id="activity-name" placeholder="Ex: Distribution de kits d'hygiène">
                 </div>
                 <div class="form-group">
-                    <label for="activity-date">Date de l'activit�:</label>
+                    <label for="activity-date">Date de l'activité:</label>
                     <input type="date" id="activity-date">
                 </div>
                 <div class="form-group">
                     <label>Volontaires participants:</label>
                     <div id="volunteers-multi-select" class="multi-select-container">
-                        <!-- Les options seront ajout�es par JS -->
+                        <!-- Les options seront ajoutées par JS -->
                     </div>
                 </div>
                 <button id="btn-create-activity" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Cr�er l'Activit�
+                    <i class="fas fa-plus"></i> Créer l'Activité
                 </button>
             </article>
 
             <article class="activity-section">
-                <h3><i class="fas fa-list"></i> Activit�s Existantes</h3>
+                <h3><i class="fas fa-list"></i> Activités Existantes</h3>
                 <table class="activity-table">
                     <thead>
                         <tr>
@@ -98,12 +98,12 @@ Page Activité</div>
 
         <section class="activity-sections">
             <article class="activity-section">
-                <h3><i class="fas fa-handshake"></i> R�union de fid�lisation</h3>
+                <h3><i class="fas fa-handshake"></i> Réunion de fidélisation</h3>
                 <table class="activity-table">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Pr�sence</th>
+                            <th>Présence</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-reunion"></tbody>
@@ -114,19 +114,19 @@ Page Activité</div>
             </article>
 
             <article class="activity-section">
-                <h3><i class="fas fa-map-marked-alt"></i> Activit� sur le terrain</h3>
+                <h3><i class="fas fa-map-marked-alt"></i> Activité sur le terrain</h3>
                 <table class="activity-table">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Nom de l'activit�</th>
-                            <th>Pr�sence</th>
+                            <th>Nom de l'activité</th>
+                            <th>Présence</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-terrain"></tbody>
                 </table>
                 <button id="btn-add-terrain" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-plus"></i> Ajouter une activit�
+                    <i class="fas fa-plus"></i> Ajouter une activité
                 </button>
             </article>
         </section>
@@ -134,8 +134,8 @@ Page Activité</div>
         <section class="activity-section bilan-annuel">
             <h3><i class="fas fa-chart-bar"></i> Bilan annuel du volontaire</h3>
             <div class="totals-card large">
-                <div>R�unions de fid�lisation: <strong id="total-reunion">0</strong></div>
-                <div>Activit�s terrain: <strong id="total-terrain">0</strong></div>
+                <div>Réunions de fidélisation: <strong id="total-reunion">0</strong></div>
+                <div>Activités terrain: <strong id="total-terrain">0</strong></div>
                 <div>Total participation annuelle: <strong id="total-annuel">0</strong></div>
             </div>
         </section>
@@ -155,14 +155,14 @@ Page Activité</div>
         </section>
 
         <section class="activity-section bilan-annuel">
-            <h3><i class="fas fa-table"></i> R�capitulatif global annuel</h3>
+            <h3><i class="fas fa-table"></i> Récapitulatif global annuel</h3>
             <table class="activity-table">
                 <thead>
                     <tr>
                         <th>Volontaire</th>
-                        <th>Total R�unions (Annuel)</th>
-                        <th>Total Activit�s (Annuel)</th>
-                        <th>Total G�n�ral (Annuel)</th>
+                        <th>Total Réunions (Annuel)</th>
+                        <th>Total Activités (Annuel)</th>
+                        <th>Total Général (Annuel)</th>
                     </tr>
                 </thead>
                 <tbody id="tbody-global-summary"></tbody>
@@ -171,8 +171,9 @@ Page Activité</div>
     </main>
 
     <footer>
-        <p>� 2026 Comit� Local de Tabarre - Croix-Rouge Ha�tienne (CLTCRH)</p>
+        <p>© 2026 Comité Local de Tabarre - Croix-Rouge Haïtienne (CLTCRH)</p>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
+
