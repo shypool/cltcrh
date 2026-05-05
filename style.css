@@ -607,6 +607,10 @@ footer p {
     border-color: var(--red-primary);
 }
 
+.custom-localite-container input {
+    margin-top: 5px;
+}
+
 .form-actions {
     display: flex;
     justify-content: flex-end;

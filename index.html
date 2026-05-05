@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
         <div class="header-content">
             <div class="logo-section">
                 <div class="logo">
-                    <img src="../logo.jpg" alt="Logo CLTCRH" class="logo-img">
+                    <img src="Desktop/CLT/logo.jpg" alt="Logo CLTCRH" class="logo-img">
                 </div>
                 <div class="title-section">
                     <h1>Comité Local de Tabarre</h1>
@@ -136,22 +136,23 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="zone">Zone/Tabarre *</label>
-                            <select id="zone" required>
-                                <option value="">Sélectionner</option>
-                                <option value="Tabarre 18">Tabarre 18</option>
-                                <option value="Tabarre 24">Tabarre 24</option>
-                                <option value="Tabarre 25">Tabarre 25</option>
-                                <option value="Tabarre 27">Tabarre 27</option>
-                                <option value="Tabarre 28">Tabarre 28</option>
-                                <option value="Tabarre 30">Tabarre 30</option>
-                                <option value="Saint-Martin">Saint-Martin</option>
-                                <option value="Laferrière">Laferrière</option>
-                                <option value="Bifol">Bifol</option>
-                                <option value="Carrefour">Carrefour</option>
-                                <option value="Bon Repos">Bon Repos</option>
-                                <option value="Autres">Autres</option>
+<label for="zone">Localité *</label>
+                            <select id="zone" required onchange="toggleCustomLocalite()">
+<option value="">Sélectionner</option>
+                                <option value="Clercine">Clercine</option>
+                                <option value="Butte-Boyer">Butte-Boyer</option>
+                                <option value="Carradeux">Carradeux</option>
+                                <option value="Torcelle">Torcelle</option>
+                                <option value="Gallette Grephin">Gallette Grephin</option>
+                                <option value="Bigarade">Bigarade</option>
+                                <option value="Cazeau">Cazeau</option>
+                                <option value="Mais Gatés">Mais Gatés</option>
+                                <option value="Autre">Autre</option>
                             </select>
+                            <div id="custom-localite-container" class="custom-localite-container" style="display: none; margin-top: 5px;">
+                                <label for="custom-localite">Localité personnalisée</label>
+                                <input type="text" id="custom-localite" placeholder="Entrez votre localité">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="competences">Compétences</label>
@@ -293,7 +294,7 @@
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Téléphone</th>
-                        <th>Zone</th>
+                        <th>Localité</th>
                         <th>Nombre d'années</th>
                         <th>Formations</th>
 
@@ -325,7 +326,25 @@
         <p>© 2026 Comité Local de Tabarre - Croix-Rouge Haïtienne (CLTCRH)</p>
     </footer>
 
+    <script>
+        function toggleCustomLocalite() {
+            const zoneSelect = document.getElementById('zone');
+            const customContainer = document.getElementById('custom-localite-container');
+            const customInput = document.getElementById('custom-localite');
+            
+            if (zoneSelect.value === 'Autre') {
+                customContainer.style.display = 'block';
+                customInput.focus();
+            } else {
+                customContainer.style.display = 'none';
+                customInput.value = '';
+            }
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
+
+
+

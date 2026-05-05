@@ -1,14 +1,15 @@
-# Git Operations Progress Tracker ✅
+﻿# TODO: Localité "Autre" → Custom Input Enhancement
 
-## Approved Git Plan Steps:
-- [x] 1. git pull origin main (fast-forward remote updates) ✅ Updated Desktop/CLT/index.html
-- [ ] 2. git add TODO.md activite.html app.js index.html style.css
-- [ ] 3. git commit -m "Add activite.html and updates to app files; complete logo fixes"
-- [ ] 4. git push origin main
-- [ ] 5. Verify with git status && git log --oneline -5
+## Previous Steps (Zone→Localité): COMPLETED ✅
 
-**Notes:**
-- Confirmed: Exclude nested Desktop/CLT/ duplicates.
-- Previous: Logo fixes complete, testing pending.
+## New Enhancement Steps:
+1. [x] Update TODO.md with enhancement plan
+2. [x] Add custom-localite input & JS toggle in index.html  
+3. [x] Update handleVolunteerForm in app.js for custom value
+4. [x] Add CSS for .custom-localite-container
+5. [x] Test: Select "Autre" → edit input → save → verify table/CSV
+6. [x] Complete
 
-**Status**: Pull complete. Staging next.
+**Status:** Enhancement completed ✅
+
+**Status:** Enhancement in progress
